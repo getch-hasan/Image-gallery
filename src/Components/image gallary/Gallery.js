@@ -1,20 +1,10 @@
 import Images from './Images'
-
 import './Gallery.css';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-
 import useImageContex from '../Hooks/useImageContex';
 import { useState } from 'react';
 import UploadImage from './UploadImage';
-
-
 const Gallery = () => {
   const { images, setImages } = useImageContex()
-  
-
-
-
   const moveImage = (fromIndex, toIndex) => {
     const updatedImages = [...images];
     const [movedImage] = updatedImages.splice(fromIndex, 1);
@@ -26,8 +16,8 @@ const Gallery = () => {
   const [deleteProduct, setDeleteProduct] = useState(false)
   const [img, setImg] = useState([])
   const handleSelect = (value) => {
-  
-    
+
+
     const newImg = [...img, value];
     const isTrue = img.some(item => item.id === value.id)
 
@@ -38,9 +28,6 @@ const Gallery = () => {
     else {
       setImg(newImg)
     }
-
-
-
   }
   let imagesValue = images;
   const newValuesImg = imagesValue.map(item => {
@@ -53,13 +40,10 @@ const Gallery = () => {
   });
 
   const filters = newValuesImg.filter(item => item !== undefined)
-
-
   const handleDelete = (e) => {
     // Filter the images to keep only the unselected ones
     const updatedImages = images.filter((image) => !img.some((selectedImage) => selectedImage.id === image.id));
     setImages(updatedImages);
-
   };
 
   if (deleteProduct) {
@@ -69,11 +53,9 @@ const Gallery = () => {
   }
   let totalSelected = images.length - filters.length
   return (
-
-
     <div>
       {
-        totalSelected>0 ? 
+        totalSelected > 0 ?
           <div className='m-10 grid grid-cols-2 justify-center  ms-11'>
             <p>
               <span>
@@ -87,9 +69,8 @@ const Gallery = () => {
               </button>
             </p>
           </div>
-        : 
+          :
           <h1 className='font-semibold text-xl m-10'>Gallery</h1>
-        
 
       }
       <div className='grid md:grid-cols-5 sm:grid-cols-4 xs:grid-cols-1 gap-4 m-5'>
@@ -101,7 +82,7 @@ const Gallery = () => {
             moveImage={moveImage}
             handleSelect={handleSelect}
             imgs={img}
-            
+
           />
         ))}
         <UploadImage imagesValue={imagesValue}></UploadImage>

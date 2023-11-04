@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 
 import Gallery from './Components/image gallary/Gallery';
 import { ImagesProvider } from './Components/Contex/ImagesContex';
