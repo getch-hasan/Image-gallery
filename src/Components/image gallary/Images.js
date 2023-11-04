@@ -3,6 +3,7 @@ import { useDrag, useDrop } from 'react-dnd';
 
 
 const Images = ({ imagesValue, index, moveImage, handleSelect, imgs }) => {
+
   const { id, img } = imagesValue;
   const [, ref] = useDrag({
     type: 'IMAGE',
@@ -20,15 +21,15 @@ const Images = ({ imagesValue, index, moveImage, handleSelect, imgs }) => {
   });
 
 
-
+  // ${checked === true ? 'opacity-75' : ''} 
   return (
     <div
       ref={(node) => {
         ref(drop(node));
       }}
       className={`${index === 0
-        ? 'col-span-2 row-span-2 border-2  rounded-lg'
-        : 'col-span-1  static row-span-1  border-2 rounded-lg'
+        ? `col-span-2 row-span-2 border-4  hover:opacity-25 transition-opacity duration-500 ease-out-in  rounded-lg`
+        : `col-span-1  static row-span-1  hover:opacity-25 transition-opacity duration-500 ease-out-in md:h-70 border-4  rounded-lg`
         }`}
     >
       <label className='relative'>
@@ -40,7 +41,7 @@ const Images = ({ imagesValue, index, moveImage, handleSelect, imgs }) => {
           name=''
           id=''
         />
-        <img className='hover:opacity-50' src={img} alt='' />
+        <img className='h-full' src={img} alt='' />
       </label>
     </div>
   );

@@ -11,6 +11,7 @@ import UploadImage from './UploadImage';
 
 const Gallery = () => {
   const { images, setImages } = useImageContex()
+  
 
 
 
@@ -25,6 +26,8 @@ const Gallery = () => {
   const [deleteProduct, setDeleteProduct] = useState(false)
   const [img, setImg] = useState([])
   const handleSelect = (value) => {
+  
+    
     const newImg = [...img, value];
     const isTrue = img.some(item => item.id === value.id)
 
@@ -66,28 +69,45 @@ const Gallery = () => {
   }
   let totalSelected = images.length - filters.length
   return (
-  
 
-      <div>
-        <div className='grid grid-cols-2 justify-center my-5 ms-11'>
-          <p> <span> <input type="checkbox" name="selected" checked={totalSelected > 0} id="" /> </span>{totalSelected > 0 && (totalSelected)} sellected </p>
-          <p><button onClick={() => handleDelete()} className='text-red-500  z-50 font-medium text-lg'>delete files</button></p>
-        </div>
-        <div className='grid md:grid-cols-5 sm:grid-cols-4 xs:grid-cols-1 gap-4 m-5'>
-          {imagesValue?.map((image, index) => (
-            <Images
-              key={image.id}
-              imagesValue={image}
-              index={index}
-              moveImage={moveImage}
-              handleSelect={handleSelect}
-              imgs={img}
-            />
-          ))}
-          <UploadImage imagesValue={imagesValue}></UploadImage>
-        </div>
+
+    <div>
+      {
+        totalSelected>0 ? 
+          <div className='m-10 grid grid-cols-2 justify-center  ms-11'>
+            <p>
+              <span>
+                <input type="checkbox" name="selected" checked={totalSelected > 0} id="" />
+              </span>
+              {totalSelected > 0 && (totalSelected)} selected
+            </p>
+            <p>
+              <button onClick={() => handleDelete()} className='text-red-500  z-50 font-medium text-lg'>
+                delete files
+              </button>
+            </p>
+          </div>
+        : 
+          <h1 className='font-semibold text-xl m-10'>Gallery</h1>
+        
+
+      }
+      <div className='grid md:grid-cols-5 sm:grid-cols-4 xs:grid-cols-1 gap-4 m-5'>
+        {imagesValue?.map((image, index) => (
+          <Images
+            key={image.id}
+            imagesValue={image}
+            index={index}
+            moveImage={moveImage}
+            handleSelect={handleSelect}
+            imgs={img}
+            
+          />
+        ))}
+        <UploadImage imagesValue={imagesValue}></UploadImage>
       </div>
-   
+    </div>
+
   );
 };
 

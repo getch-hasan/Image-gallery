@@ -37,13 +37,13 @@ const UploadImage = ({ imagesValue }) => {
 
   return (
     <div
-      className="border-2 border-dashed rounded-lg  sm:min-h-max min-w-full 
+      className="border-2 border-dashed rounded-lg md:min-h-80 sm:min-h-40 min-w-full 
       justify-center items-center grid  "
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
 
-      <div className='flex justify-center ite'><img className=" absolute h-5 w-5  " src={imgIcon} alt="" /><p className='mt-5'>Drop an image here</p></div>
+      <div className='grid p-10  h-full'><div className='grid justify-center items-end'><img className=" h-5 w-5  " src={imgIcon} alt="" /></div><div className='grid justify-center items-center'><p className='mt-5 h-full '>Drop an image here</p></div></div>
 
       <div><input className='hidden' type="file" accept="image/*" onChange={handleFileSelect} /></div>
 
