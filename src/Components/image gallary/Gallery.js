@@ -1,29 +1,18 @@
-import React, { useState } from 'react';
-import image1 from '../../assets/images/image-1.webp';
-import image2 from '../../assets/images/image-2.webp';
-import image3 from '../../assets/images/image-3.webp';
-import image4 from '../../assets/images/image-4.webp';
-import image5 from '../../assets/images/image-5.webp';
-import image6 from '../../assets/images/image-6.webp';
-import image7 from '../../assets/images/image-7.webp';
-import image8 from '../../assets/images/image-8.webp';
-import Images from './Images';
-import imgIcon from '../../assets/images/image-solid.svg';
+import Images from './Images'
+
 import './Gallery.css';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
+import useImageContex from '../Hooks/useImageContex';
+import { useState } from 'react';
+import UploadImage from './UploadImage';
+
+
 const Gallery = () => {
-  const [images, setImages] = useState([
-    { id: 1, img: image1 },
-    { id: 2, img: image2 },
-    { id: 3, img: image3 },
-    { id: 4, img: image4 },
-    { id: 5, img: image5 },
-    { id: 6, img: image6 },
-    { id: 7, img: image7 },
-    { id: 8, img: image8 },
-  ]);
+  const { images, setImages } = useImageContex()
+
+
 
   const moveImage = (fromIndex, toIndex) => {
     const updatedImages = [...images];
@@ -32,27 +21,73 @@ const Gallery = () => {
     setImages(updatedImages);
   };
 
-  const renderImages = images.map((image, index) => (
-    <Images
-      key={image.id}
-      image={image}
-      index={index}
-      moveImage={moveImage}
-    />
-  ));
 
+  const [deleteProduct, setDeleteProduct] = useState(false)
+  const [img, setImg] = useState([])
+  const handleSelect = (value) => {
+    const newImg = [...img, value];
+    const isTrue = img.some(item => item.id === value.id)
+
+    if (isTrue) {
+      const filters = img.filter(item => item.id !== value.id)
+      setImg(filters)
+    }
+    else {
+      setImg(newImg)
+    }
+
+
+
+  }
+  let imagesValue = images;
+  const newValuesImg = imagesValue.map(item => {
+    const finds = img.find(it => it?.id === item?.id);
+    if (!finds?.id) {
+      return item;
+    } else {
+      return undefined; // Return something or null to indicate that the item should be excluded
+    }
+  });
+
+  const filters = newValuesImg.filter(item => item !== undefined)
+
+
+  const handleDelete = (e) => {
+    // Filter the images to keep only the unselected ones
+    const updatedImages = images.filter((image) => !img.some((selectedImage) => selectedImage.id === image.id));
+    setImages(updatedImages);
+
+  };
+
+  if (deleteProduct) {
+
+    imagesValue = filters
+
+  }
+  let totalSelected = images.length - filters.length
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div className='grid grid-cols-5 gap-4 m-5'>
-        {renderImages}
-        <div
-          className='border-dashed border-2 border-blue-500 rounded-lg grid grid-cols-1 gap-5 content-center items-center'
-        >
-          <img className='h-5 w-5' src={imgIcon} alt='' />
-          <p>Upload your image</p>
+  
+
+      <div>
+        <div className='grid grid-cols-2 justify-center my-5 ms-11'>
+          <p> <span> <input type="checkbox" name="selected" checked={totalSelected > 0} id="" /> </span>{totalSelected > 0 && (totalSelected)} sellected </p>
+          <p><button onClick={() => handleDelete()} className='text-red-500  z-50 font-medium text-lg'>delete files</button></p>
+        </div>
+        <div className='grid md:grid-cols-5 sm:grid-cols-4 xs:grid-cols-1 gap-4 m-5'>
+          {imagesValue?.map((image, index) => (
+            <Images
+              key={image.id}
+              imagesValue={image}
+              index={index}
+              moveImage={moveImage}
+              handleSelect={handleSelect}
+              imgs={img}
+            />
+          ))}
+          <UploadImage imagesValue={imagesValue}></UploadImage>
         </div>
       </div>
-    </DndProvider>
+   
   );
 };
 
