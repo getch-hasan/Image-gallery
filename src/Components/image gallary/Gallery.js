@@ -73,7 +73,7 @@ const Gallery = () => {
           <h1 className='font-semibold text-xl m-10'>Gallery</h1>
 
       }
-      <div className='grid md:grid-cols-5 sm:grid-cols-4 xs:grid-cols-1 gap-4 m-5'>
+      <div className='grid md:grid-cols-5 sm:grid-cols-4  gap-4 m-5'>
         {imagesValue?.map((image, index) => (
           <Images
             key={image.id}
